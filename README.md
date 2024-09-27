@@ -33,7 +33,7 @@ $ yarn install
 ```
 
 ## Starting docker database(Run this first if you don't have postgres installed on your local machine)
-Make sure docker is started on running on your local machine
+Make sure docker is started and running on your local machine
 ```bash
 $ yarn start db:docker
 ```
