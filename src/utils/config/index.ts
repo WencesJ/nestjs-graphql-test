@@ -4,6 +4,10 @@ import { IsNotEmpty, IsNumber, IsString, validateSync } from 'class-validator';
 export class ConfigEnvClass {
   @IsNotEmpty()
   @IsString()
+  NODE_ENV = 'dev';
+
+  @IsNotEmpty()
+  @IsString()
   DATABASE_URL: string;
 
   @IsNotEmpty()
@@ -14,6 +18,10 @@ export class ConfigEnvClass {
   @Transform(({ value }) => JSON.parse(value))
   @IsNumber()
   PORT = 3000;
+
+  @IsNotEmpty()
+  @IsString()
+  JWT_SECRET: string;
 }
 
 export let configEnv: ConfigEnvClass;
