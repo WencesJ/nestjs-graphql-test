@@ -1,8 +1,9 @@
 {
   "name": "nest-graphql-test",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "A nestjs graphql with prisma codebase",
+  "author": "Wenceslas E. Jonah",
+  "repository": "https://github.com/WencesJ/nestjs-graphql-test.git",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

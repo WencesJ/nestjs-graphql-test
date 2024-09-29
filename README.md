@@ -22,9 +22,17 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
+# NestJS GraphQL API Starter
+
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This is a [NestJS](https://github.com/nestjs/nest) GraphQL API starter repository with TypeScript, Prisma, and PostgreSQL. It provides a solid foundation for building scalable and maintainable GraphQL APIs.
+
+## Prerequisites
+
+- Node.js (v16 or later)
+- Yarn package manager
+- Docker (Optional - for running PostgreSQL in a container)
 
 ## Installation
 
@@ -32,57 +40,121 @@
 $ yarn install
 ```
 
-## Starting docker database(Run this first if you don't have postgres installed on your local machine)
-Make sure docker is started and running on your local machine
-```bash
-$ yarn db:docker
-```
-## Sync prisma schema with database
+## Database Setup
+
+### Option 1: Using Docker (Recommended)
+
+Ensure Docker is installed and running on your machine.
+
+1. Start the PostgreSQL database:
 
 ```bash
-# Run this before starting the app
+$ yarn docker:db:start
+```
+
+This command will start a PostgreSQL instance and create both a main database and a test database.
+
+2. Stop the database (when you're done testing/running the application):
+
+```bash
+$ yarn docker:db:stop
+```
+
+### Option 2: Local PostgreSQL Instance
+
+If you prefer to use a local PostgreSQL instance, ensure it's installed and running. Create and update the `.env` file with your database credentials.
+
+## Prisma Setup
+
+After setting up the database, synchronize the Prisma schema:
+
+```bash
 $ yarn prisma migrate deploy
-
 ```
 
-## Running the app
+This command will apply all migrations to your database.
+
+## Environment Variables
+
+Copy the `.env.example` file to `.env` and update the variables as needed:
 
 ```bash
-# development
+$ cp .env.example .env
+```
+
+Make sure to set the correct `DATABASE_URL` in both `.env` and `.env.test` files.
+
+## Running the Application
+
+```bash
+# Development mode
 $ yarn start
 
-# watch mode
+# Watch mode (auto-reload on changes)
 $ yarn start:dev
 
-# production mode
+# Production mode
 $ yarn start:prod
 ```
 
-Before running test, there's a .env.test file which needs to have a working db url.
-PS: if you ran the db docker command up, you don't need to worry about this, as the db docker command also creates a working test db for the tests
+## Testing
 
-## Test
+Before running tests, ensure your `.env.test` file has a valid database URL. If you're using the Docker setup, this should be pre-configured. It is advisable for `.env.test` database url is different from `.env` database url
+
 ```bash
-# unit tests
+# Unit tests
 $ yarn test
 
-# e2e tests
+# End-to-end tests
 $ yarn test:e2e
 
-# test coverage
+# Test coverage
 $ yarn test:cov
 ```
+## GraphQL Server Url
 
-## Support
+Once the application is running, you can access the GraphQL Server Url at:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```
+http://localhost:3000
+```
+
+## GraphQL Playground
+
+Once the application is running, you can access the GraphQL Playground at:
+
+```
+http://localhost:3000/graphql
+```
+
+Use this interface to explore and test your GraphQL API.
+
+## Project Structure
+
+```
+prisma/             # Prisma schema and migrations
+src/
+├── auth/           # Authentication related files
+├── user/           # User module
+├── interface/      # Application shared interfaces
+├── utils/          # Shared utilities and constants and configuration files
+├── app.module.ts   # Main application module
+└── main.ts         # Application entry point
+```
+
+## Best Practices
+
+1. Keep your resolvers thin and move business logic to services.
+2. Use DTOs (Data Transfer Objects) for input validation.
+3. Implement proper error handling using NestJS exceptions.
+4. Write unit tests for services and e2e tests for resolvers.
+5. Use environment variables for configuration.
+6. Keep your Prisma schema updated and run migrations for any changes.
+
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+- Author - [Wenceslas E. Jonah](https://github.com/wencesj)

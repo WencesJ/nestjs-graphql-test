@@ -5,8 +5,8 @@ services:
     environment:
       - POSTGRES_USER=runner
       - POSTGRES_PASSWORD=secret
-      - POSTGRES_DB=mydb
-      - POSTGRES_DB=testdb
+      - POSTGRES_DB=nest_grahpql_mydb
+      - POSTGRES_DB=nest_grahpql_testdb
     volumes:
       - postgres:/var/lib/postgresql/data
     ports:
@@ -14,7 +14,7 @@ services:
     command: >
       bash -c "docker-entrypoint.sh postgres &
       sleep 10 &&
-      psql -U runner -d mydb -c 'CREATE DATABASE testdb;' &&
+      psql -U runner -d mydb -c 'CREATE DATABASE nest_grahpql_testdb;' &&
       wait"
 
 volumes:
