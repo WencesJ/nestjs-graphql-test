@@ -6,18 +6,18 @@ export class UserDoc {
   @Field(() => String)
   id: User['id'];
 
-  @Field()
+  @Field(() => String)
   email: User['email'];
 
   @HideField()
   password: User['password'];
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   biometricKey?: User['biometricKey'];
 
-  @Field()
+  @Field(() => Date)
   createdAt: User['createdAt'];
 
-  @Field()
+  @Field(() => Date)
   updatedAt: User['updatedAt'];
 }

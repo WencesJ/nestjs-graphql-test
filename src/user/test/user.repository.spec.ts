@@ -1,8 +1,10 @@
+import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as bcrypt from 'bcrypt';
+import { configEnv, validateEnv } from 'src/utils/config';
 import { PrismaService } from 'src/utils/database/prisma/prisma.service';
+import { cryptHelper } from 'src/utils/helper';
 import { UserRepository } from '../user.repository';
-
 // jest.mock('bcrypt');
 
 describe('UserRepository', () => {
@@ -12,6 +14,7 @@ describe('UserRepository', () => {
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
+      imports: [ConfigModule.forRoot({ validate: validateEnv })],
       providers: [UserRepository, PrismaService],
     }).compile();
 
@@ -55,17 +58,39 @@ describe('UserRepository', () => {
   describe('create', () => {
     it('hashes password before create', async () => {
       const userData = {
-        email: `email1@example.com`,
+        email: `user.email@example.com`,
         password: 'StrongPassword123!',
       };
 
       jest.spyOn(bcrypt, 'hash').getMockImplementation();
 
-      prismaService.user.create = jest.fn().mockResolvedValue(null);
+      const mockedUserCreate = jest
+        .spyOn(prismaService.user, 'create')
+        .mockResolvedValue(null as any);
 
       await userRepository.create(userData);
 
       expect(bcrypt.hash).toHaveBeenCalledWith(userData.password, 10);
+
+      mockedUserCreate.mockRestore();
+    });
+
+    it('encrypts biometricsKey before create', async () => {
+      const userData = {
+        email: `user.email@example.com`,
+        password: 'StrongPassword123!',
+        biometricKey: 'any-biometrics-key',
+      };
+
+      jest.spyOn(cryptHelper, 'aesEncrypt').getMockImplementation();
+
+      const user = await userRepository.create(userData);
+
+      expect(cryptHelper.aesEncrypt).toHaveBeenCalledWith(
+        userData.biometricKey,
+        configEnv.BIOMETRIC_SECRET,
+      );
+      expect(user.biometricKey).not.toBe(userData.biometricKey);
     });
   });
 });

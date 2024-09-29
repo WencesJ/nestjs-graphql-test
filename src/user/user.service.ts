@@ -12,9 +12,7 @@ export class UserService {
     return this.userRepository.getByEmail(email);
   }
 
-  async findOne(
-    findArgs: Prisma.UserWhereUniqueInput,
-  ): Promise<UserDoc | null> {
+  async findOne(findArgs: Prisma.UserWhereInput): Promise<UserDoc | null> {
     return this.userRepository.findOne(findArgs);
   }
 

@@ -1,4 +1,6 @@
+import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
+import { validateEnv } from 'src/utils/config';
 import { PrismaService } from 'src/utils/database/prisma/prisma.service';
 import { UserRepository } from '../user.repository';
 import { UserService } from '../user.service';
@@ -10,6 +12,8 @@ describe('UserService', () => {
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
+      imports: [ConfigModule.forRoot({ validate: validateEnv })],
+
       providers: [PrismaService, UserRepository, UserService],
     }).compile();
 
@@ -59,11 +63,11 @@ describe('UserService', () => {
     it('create a user with biometricKey', async () => {
       const userData = getMockUserData();
 
-      const biometricKey = 'e21dae94kagkl';
+      const biometricKey = 'a-biometric-key';
       const result = await userService.create({ ...userData, biometricKey });
 
       expect(result.email).toEqual(userData.email);
-      expect(result.biometricKey).toEqual(biometricKey);
+      expect(result.biometricKey).not.toEqual(biometricKey);
     });
 
     it('throws error when email exists in db', async () => {
