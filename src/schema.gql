@@ -1,0 +1,46 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type LoggedInDoc {
+  access_token: String!
+  user: UserDoc!
+}
+
+type Mutation {
+  userBiometricsLogin(userBiometricsLogin: UserBiometricsLoginInput!): LoggedInDoc!
+  userRegistration(userRegistration: UserRegisterInput!): UserDoc!
+  userStandardLogin(userStandardLogin: UserStandardLoginInput!): LoggedInDoc!
+}
+
+type Query {
+  health: String!
+}
+
+input UserBiometricsLoginInput {
+  biometricKey: String!
+}
+
+type UserDoc {
+  biometricKey: String
+  createdAt: DateTime!
+  email: String!
+  id: String!
+  updatedAt: DateTime!
+}
+
+input UserRegisterInput {
+  biometricKey: String
+  email: String!
+  password: String!
+}
+
+input UserStandardLoginInput {
+  email: String!
+  password: String!
+}

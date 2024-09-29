@@ -37,6 +37,13 @@ Make sure docker is started and running on your local machine
 ```bash
 $ yarn db:docker
 ```
+## Sync prisma schema with database
+
+```bash
+# Run this before starting the app
+$ yarn prisma migrate deploy
+
+```
 
 ## Running the app
 
@@ -51,8 +58,10 @@ $ yarn start:dev
 $ yarn start:prod
 ```
 
-## Test
+Before running test, there's a .env.test file which needs to have a working db url.
+PS: if you ran the db docker command up, you don't need to worry about this, as the db docker command also creates a working test db for the tests
 
+## Test
 ```bash
 # unit tests
 $ yarn test
