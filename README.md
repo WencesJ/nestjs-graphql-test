@@ -37,6 +37,13 @@ Make sure docker is started and running on your local machine
 ```bash
 $ yarn db:docker
 ```
+## Sync prisma schema with database
+
+```bash
+# Run this before starting the app
+$ yarn prisma migrate deploy
+
+```
 
 ## Running the app
 
